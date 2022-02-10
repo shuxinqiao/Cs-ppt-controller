@@ -9,6 +9,5 @@
 //------------------------------------------------------------------------------
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("webapp/webapp.html")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("webapp/vue.global.js")]
 
 

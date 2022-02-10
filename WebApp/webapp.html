@@ -9,7 +9,7 @@
 <html>
 	<head>
 		<title>PPT controller</title>
-		<script src="/vue.global.js"></script>
+		<!--<script src="/vue.global.js"></script>!-->
 	</head>
 	<body>
 	<!--
@@ -21,78 +21,78 @@
 	</div>
 	!-->
 	<div>
-	  	<button onclick="PreviousPage()">Previous Page</button>
-	  	<button onclick="NextPage()">Next Page</button>
-	  	<p id="page_num" />
-	  	<p id="page_note" />
+		<button onclick="PreviousPage()">Previous Page</button>
+		<button onclick="NextPage()">Next Page</button>
+		<p id="page_num" />
+		<p id="page_note" />
 	</div>
 
 	<div>
-	  	<p id="show"></p>
+		<p id="show"></p>
 	</div>
 
 
-		<script type="text/javascript">
-			var run = function () {
-				var print = document.getElementById("show");
-				//var form = document.getElementById("Form");
-				//var input = document.getElementById("SendInfo");
-				window.ws = new WebSocket("ws://127.0.0.1:3001/");
+	<script type="text/javascript">
+		var run = function () {
+			var print = document.getElementById("show");
+			//var form = document.getElementById("Form");
+			//var input = document.getElementById("SendInfo");
+			window.ws = new WebSocket("ws://127.0.0.1:3001/");
 
-				// listening
+			// listening
 
-				ws.onmessage = function (eve) {
-					console.log(eve.data + '<br>');
+			ws.onmessage = function (eve) {
+				console.log(eve.data + '<br>');
 
-					substring(eve.data);
-				}
-
-				// socket status
-				ws.onopen = function () {
-					print.innerHTML = 'connection open<br>';
-					ws.send("open?");
-				}
-
-				// socket close
-				ws.onclose = function () {
-					print.innerHTML = 'connection closed<br>';
-				}
-
-				form.addEventListener('submit', function (e) {
-					e.preventDefault();
-					var client_message = "Client: " + input.value;
-					ws.send(client_message);
-					input.value = '';
-				})
+				substring(eve.data);
 			}
 
-			window.onload = run();
+			// socket status
+			ws.onopen = function () {
+				print.innerHTML = 'connection open<br>';
+				ws.send("open?");
+			}
 
-			function substring(data) {
-				try {
-					var pos = data.indexOf("?");
-					if (data.indexOf("?PAGENUM") != -1) {
-						var num = data.substring(pos + "?PAGENUM=".length), rest = data.substring(0, pos);
-						page_num.innerHTML = "Page: " + num;
-					}
-					else if (data.indexOf("?PAGENOTE") != -1) {
-						var note = data.substring(pos + "?PAGENOTE=".length), rest = data.substring(0, pos);
-						page_note.innerHTML = "Note: " + note;
-					}
-				} catch (err) {
-					console.log("data match error. Probably no ppt file loaded on server");
-					page_note.innerHTML = "data match error. Probably no ppt file loaded on server";
+			// socket close
+			ws.onclose = function () {
+				print.innerHTML = 'connection closed<br>';
+			}
+
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+				var client_message = "Client: " + input.value;
+				ws.send(client_message);
+				input.value = '';
+			})
+		}
+
+		window.onload = run();
+
+		function substring(data) {
+			try {
+				var pos = data.indexOf("?");
+				if (data.indexOf("?PAGENUM") != -1) {
+					var num = data.substring(pos + "?PAGENUM=".length), rest = data.substring(0, pos);
+					page_num.innerHTML = "Page: " + num;
 				}
+				else if (data.indexOf("?PAGENOTE") != -1) {
+					var note = data.substring(pos + "?PAGENOTE=".length), rest = data.substring(0, pos);
+					page_note.innerHTML = "Note: " + note;
+				}
+			} catch (err) {
+				console.log("data match error. Probably no ppt file loaded on server");
+				page_note.innerHTML = "data match error. Probably no ppt file loaded on server";
 			}
+		}
 
-			function NextPage() {
-				ws.send("?NEXTPAGE");
-			}
+		function NextPage() {
+			ws.send("?NEXTPAGE");
+		}
 
-			function PreviousPage() {
-				ws.send("?PREPAGE");
-			}
+		function PreviousPage() {
+			ws.send("?PREPAGE");
+		}
 
-		</script>
+	</script>
 	</body>
 </html>

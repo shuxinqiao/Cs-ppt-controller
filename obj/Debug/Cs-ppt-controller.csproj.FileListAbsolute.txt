@@ -32,4 +32,3 @@ P:\Cs-ppt-controller\bin\Debug\Fleck.dll
 P:\Cs-ppt-controller\bin\Debug\QRCoder.dll
 P:\Cs-ppt-controller\bin\Debug\QRCoder.Xaml.dll
 P:\Cs-ppt-controller\bin\Debug\WebApp\webapp.html
-P:\Cs-ppt-controller\bin\Debug\WebApp\vue.global.js
