@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" href="/sq-green.png" type="image/png">
+	<link rel="shortcut icon" href="/sq-green.png" type="image/png">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+</head>
+
+<html>
+	<head>
+		<title>PPT controller</title>
+		<!--<script src="/vue.global.js"></script>!-->
+	</head>
+	<body>
+
+	<div>
+		<form id="Form">
+			<input type="input" id="SendInfo" value=""/>
+			<button type="submit">Submit</button>
+		</form>
+	</div>
+
+	<div>
+		<button onclick="PreviousPage()">Previous Page</button>
+		<button onclick="NextPage()">Next Page</button>
+		<p id="page_num" />
+		<p id="page_note" />
+	</div>
+
+	<div>
+		<p id="show"></p>
+	</div>
+
+
+	<script type="text/javascript">
+		var run = function (ip_address) {
+			var print = document.getElementById("show");
+			//var form = document.getElementById("Form");
+			//var input = document.getElementById("SendInfo");
+			window.ws = new WebSocket("ws://" + ip_address + ":3001/");
+
+			// listening
+
+			ws.onmessage = function (eve) {
+				console.log(eve.data + '<br>');
+
+				substring(eve.data);
+			}
+
+			// socket status
+			ws.onopen = function () {
+				print.innerHTML = 'connection open<br>';
+				ws.send("open");
+			}
+
+			// socket close
+			ws.onclose = function () {
+				print.innerHTML = 'connection closed<br>';
+			}
+
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+				var client_message = "Client: " + input.value;
+				ws.send(client_message);
+				input.value = '';
+			})
+		}
+
+        var input = document.getElementById("SendInfo");
+		var form = document.getElementById("Form");
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var ip_address = input.value;
+            window.onload = run(ip_address);
+        })
+		
+
+		function substring(data) {
+			try {
+				var pos = data.indexOf("?");
+				if (data.indexOf("?PAGENUM") != -1) {
+					var num = data.substring(pos + "?PAGENUM=".length), rest = data.substring(0, pos);
+					page_num.innerHTML = "Page: " + num;
+				}
+				else if (data.indexOf("?PAGENOTE") != -1) {
+					var note = data.substring(pos + "?PAGENOTE=".length), rest = data.substring(0, pos);
+					page_note.innerHTML = "Note: " + note;
+				}
+			} catch (err) {
+				console.log("data match error. Probably no ppt file loaded on server");
+				page_note.innerHTML = "data match error. Probably no ppt file loaded on server";
+			}
+		}
+
+		function NextPage() {
+			ws.send("?NEXTPAGE");
+		}
+
+		function PreviousPage() {
+			ws.send("?PREPAGE");
+		}
+
+	</script>
+	</body>
+</html>

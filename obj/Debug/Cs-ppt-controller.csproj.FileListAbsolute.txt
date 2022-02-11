@@ -66,3 +66,7 @@ D:\Cs-ppt-controller\obj\Debug\Cs-ppt-controller.csproj.CoreCompileInputs.cache
 D:\Cs-ppt-controller\obj\Debug\Cs-ppt-controller.csproj.CopyComplete
 D:\Cs-ppt-controller\obj\Debug\Cs-ppt-controller.exe
 D:\Cs-ppt-controller\obj\Debug\Cs-ppt-controller.pdb
+P:\Cs-ppt-controller\bin\Debug\Cs-ppt-controller.exe.manifest
+P:\Cs-ppt-controller\bin\Debug\Cs-ppt-controller.application
+P:\Cs-ppt-controller\obj\Debug\Cs-ppt-controller.exe.manifest
+P:\Cs-ppt-controller\obj\Debug\Cs-ppt-controller.application
