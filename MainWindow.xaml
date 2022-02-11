@@ -137,7 +137,7 @@
 
             <Button Name="refresh_button" Grid.Column="5" Grid.Row="1"
                     Click="refresh_button_Click">
-                <Image Width="16" Height="16" Source="P:\Cs-ppt-controller\WebApp\Resources\refresh.png"></Image>
+                <Image Width="16" Height="16" Source="pack://application:,,,/Cs-ppt-controller;component/WebApp/Resources/refresh.png"></Image>
             </Button>
             
         </Grid>
