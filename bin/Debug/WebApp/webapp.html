@@ -12,14 +12,14 @@
 		<!--<script src="/vue.global.js"></script>!-->
 	</head>
 	<body>
-	<!--
+
 	<div>
 		<form id="Form">
 			<input type="input" id="SendInfo" value=""/>
 			<button type="submit">Submit</button>
 		</form>
 	</div>
-	!-->
+
 	<div>
 		<button onclick="PreviousPage()">Previous Page</button>
 		<button onclick="NextPage()">Next Page</button>
@@ -33,11 +33,11 @@
 
 
 	<script type="text/javascript">
-		var run = function () {
+		var run = function (ip_address) {
 			var print = document.getElementById("show");
 			//var form = document.getElementById("Form");
 			//var input = document.getElementById("SendInfo");
-			window.ws = new WebSocket("ws://127.0.0.1:3001/");
+			window.ws = new WebSocket("ws://" + ip_address + ":3001/");
 
 			// listening
 
@@ -66,7 +66,14 @@
 			})
 		}
 
-		window.onload = run();
+        var input = document.getElementById("SendInfo");
+		var form = document.getElementById("Form");
+		form.addEventListener('submit', function (e) {
+			e.preventDefault();
+			var ip_address = input.value;
+            window.onload = run(ip_address);
+        })
+		
 
 		function substring(data) {
 			try {
