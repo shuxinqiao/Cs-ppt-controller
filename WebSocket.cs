@@ -19,7 +19,7 @@ namespace Cs_ppt_controller
         public WebSocket(dynamic ppt_obj, dynamic com_ref, dynamic page_num_text_box)
         {
             socket_list = new List<IWebSocketConnection>();
-            server = new WebSocketServer("ws://127.0.0.1:3001");
+            server = new WebSocketServer("ws://0.0.0.0:3001");
             dynamic com_ref_ws = com_ref;
             server.Start(socket =>
             {

@@ -178,9 +178,12 @@ namespace Cs_ppt_controller
                 if (!host_status)
                 {
                     http_service = new HttpService();
+                    //http_service = new HttpServer();
                     ws_service = new WebSocket(ppt_obj, com_ref, page_num_text_box);
 
-                    address_text_box.Text = http_service.GetHttpAddress();
+                    string ip_address = GetLocalIPAddress();
+                        
+                    address_text_box.Text = "http://" + ip_address + ":9000/" + http_service.GetHttpAddress();
 
                     host_status = true;
                     System.Windows.MessageBox.Show("Succeeded", "Web Host", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -334,6 +337,21 @@ namespace Cs_ppt_controller
                 Console.WriteLine("Refresh error." + em);
             }
         }
+
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+
+
     }
 
 

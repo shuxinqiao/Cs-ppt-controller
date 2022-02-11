@@ -11,7 +11,7 @@ namespace Cs_ppt_controller
         private const int con_current_count = 20;
 
         // Server address
-        private const string server_url = "http://127.0.0.1:3000/";
+        private const string server_url = "http://*:3000/";
 
         dynamic server;
 
@@ -27,7 +27,7 @@ namespace Cs_ppt_controller
 
         public string GetHttpAddress()
         {
-            return server_url + "webapp.html";
+            return "webapp.html";
         }
 
         public void Close()
