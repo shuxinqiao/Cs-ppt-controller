@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cs_ppt_controller
 {
@@ -10,6 +6,7 @@ namespace Cs_ppt_controller
     {
         private const int con_current_count = 20;
 
+        //netsh http add urlacl url=http://+:80/MyUri user=DOMAIN\user
         // Server address
         private const string server_url = "http://*:3000/";
 
@@ -17,6 +14,7 @@ namespace Cs_ppt_controller
 
         public HttpService()
         {
+            //System.Diagnostics.Process.Start("netsh.exe", "http add urlacl url=http://*:3000/ user=Everyone");
             server = new WebServer(con_current_count);
 
             server.Bind(server_url);

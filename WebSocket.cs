@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Zack.ComObjectHelpers;
 
 
 namespace Cs_ppt_controller
@@ -37,8 +35,9 @@ namespace Cs_ppt_controller
                 {
                     Console.WriteLine("Client: " + message);
                     string[] mes_combine = Detect(ppt_obj, com_ref, message, page_num_text_box);
-                    
-                    if (mes_combine.Length == 2){ 
+
+                    if (mes_combine.Length == 2)
+                    {
                         socket_list.ToList().ForEach(s => s.Send("?PAGENUM=" + mes_combine[0]));
                         socket_list.ToList().ForEach(s => s.Send("?PAGENOTE=" + mes_combine[1]));
                     }
@@ -79,13 +78,21 @@ namespace Cs_ppt_controller
                 try
                 {
                     Trace(Trace(ppt_obj.SlideShowWindow, com_ref).view, com_ref).Next();
-                    
+
                     page_num = Trace(Trace(Trace(ppt_obj.SlideShowWindow, com_ref).view, com_ref).Slide, com_ref).SlideIndex;
                     //page_num_text_box.Text = "Page: " + page_num.ToString();
-                    
+
                     dynamic ppt_page = Trace(Trace(Trace(Trace(ppt_obj.SlideShowWindow, com_ref).view, com_ref).Slide, com_ref).NotesPage, com_ref);
                     var ppt_note = GetInnerText(ppt_page, com_ref);
-                    ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                    try
+                    {
+                        ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                    }
+                    catch (Exception em)
+                    {
+                        Console.WriteLine("page note read fail." + em);
+                        ppt_note = "";
+                    }
 
                     mes_combine = new string[] { page_num.ToString(), ppt_note };
 
@@ -109,7 +116,15 @@ namespace Cs_ppt_controller
 
                         dynamic ppt_page = Trace(Trace(Trace(Trace(ppt_obj.SlideShowWindow, com_ref).view, com_ref).Slide, com_ref).NotesPage, com_ref);
                         var ppt_note = GetInnerText(ppt_page, com_ref);
-                        ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                        try
+                        {
+                            ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                        }
+                        catch (Exception em)
+                        {
+                            Console.WriteLine("page note read fail." + em);
+                            ppt_note = "";
+                        }
                         mes_combine = new string[] { page_num.ToString(), ppt_note };
 
                         return mes_combine;

@@ -1,19 +1,14 @@
 ﻿using QRCoder;
 using QRCoder.Xaml;
 using System;
-using System.Collections;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Zack.ComObjectHelpers;
 
 namespace Cs_ppt_controller
@@ -39,7 +34,7 @@ namespace Cs_ppt_controller
         private dynamic ppt_obj;
         private OpenFileDialog openFileDialog = new OpenFileDialog();
 
-        
+
 
         string file_name = null;
         bool host_status = false;
@@ -155,12 +150,21 @@ namespace Cs_ppt_controller
                 status_path.Text = file_name;
 
                 dynamic ppt_page = Trace(Trace(Trace(Trace(ppt_obj.SlideShowWindow).view).Slide).NotesPage);
-                
+
                 page_num = Trace(Trace(Trace(ppt_obj.SlideShowWindow).view).Slide).SlideIndex;
                 page_num_text_box.Text = "Page: " + page_num.ToString();
 
                 ppt_note = GetInnerText(ppt_page);
-                ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+
+                try
+                {
+                    ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                }
+                catch (Exception em)
+                {
+                    Console.WriteLine("page note read fail." + em);
+                    ppt_note = "";
+                }
                 page_note_text_box.Text = ppt_note;
             }
             else
@@ -182,7 +186,7 @@ namespace Cs_ppt_controller
                     ws_service = new WebSocket(ppt_obj, com_ref, page_num_text_box);
 
                     string ip_address = GetLocalIPAddress();
-                        
+
                     address_text_box.Text = "http://" + ip_address + ":3000/" + http_service.GetHttpAddress();
 
                     host_status = true;
@@ -192,7 +196,7 @@ namespace Cs_ppt_controller
                 {
 
                     ws_service.Close();
-                    
+
                     http_service.Close();
 
                     address_text_box.Text = "Host Closed";
@@ -231,7 +235,15 @@ namespace Cs_ppt_controller
 
                 dynamic ppt_page = Trace(Trace(Trace(Trace(ppt_obj.SlideShowWindow).view).Slide).NotesPage);
                 ppt_note = GetInnerText(ppt_page);
-                ppt_note = ppt_note.Split(new string[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                try
+                {
+                    ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                }
+                catch (Exception em)
+                {
+                    Console.WriteLine("page note read fail." + em);
+                    ppt_note = "";
+                }
                 page_note_text_box.Text = ppt_note;
             }
             catch (Exception)
@@ -258,7 +270,17 @@ namespace Cs_ppt_controller
 
                     dynamic ppt_page = Trace(Trace(Trace(Trace(ppt_obj.SlideShowWindow).view).Slide).NotesPage);
                     ppt_note = GetInnerText(ppt_page);
-                    ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+
+                    try
+                    {
+                        ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                    }
+                    catch (Exception em)
+                    {
+                        Console.WriteLine("page note read fail." + em);
+                        ppt_note = "";
+                    }
+                    
                     page_note_text_box.Text = ppt_note;
                 }
             }
@@ -317,7 +339,7 @@ namespace Cs_ppt_controller
                 Debug.WriteLine("Qr code generation error: " + em);
             }
         }
-        
+
 
         private void refresh_button_Click(object sender, RoutedEventArgs e)
         {
@@ -329,7 +351,15 @@ namespace Cs_ppt_controller
 
                 dynamic ppt_page = Trace(Trace(Trace(Trace(ppt_obj.SlideShowWindow).view).Slide).NotesPage);
                 ppt_note = GetInnerText(ppt_page);
-                ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                try
+                {
+                    ppt_note = ppt_note.Split(new[] { "\r\n\r\n\r\n" }, StringSplitOptions.None)[1];
+                }
+                catch (Exception em)
+                {
+                    Console.WriteLine("page note read fail." + em);
+                    ppt_note = "";
+                }
                 page_note_text_box.Text = ppt_note;
             }
             catch (Exception em)
@@ -363,14 +393,14 @@ namespace Cs_ppt_controller
                 if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
                 {
                     IPInterfaceProperties properties = ni.GetIPProperties();
-                    Console.WriteLine(properties.DnsSuffix);
+                    //Console.WriteLine(properties.DnsSuffix);
                     //Console.WriteLine(ni.Name);
                     foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
                     {
                         if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                         {
-                            Console.WriteLine(ip.Address.ToString());
-                            if(properties.DnsSuffix == "lan")
+                            //Console.WriteLine(ip.Address.ToString());
+                            if (properties.DnsSuffix == "lan")
                             {
                                 return ip.Address.ToString();
                             }
