@@ -183,7 +183,7 @@ namespace Cs_ppt_controller
 
                     string ip_address = GetLocalIPAddress();
                         
-                    address_text_box.Text = "http://" + ip_address + ":9000/" + http_service.GetHttpAddress();
+                    address_text_box.Text = "http://" + ip_address + ":3000/" + http_service.GetHttpAddress();
 
                     host_status = true;
                     System.Windows.MessageBox.Show("Succeeded", "Web Host", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -341,11 +341,41 @@ namespace Cs_ppt_controller
         public static string GetLocalIPAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
+            NetworkInterface[] adapters = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (NetworkInterface adapter in adapters)
+            {
+                IPInterfaceProperties properti = adapter.GetIPProperties();
+                IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+                //Console.WriteLine(properties.HostName);//properties.DnsSuffix);
+            }
+            /*
             foreach (var ip in host.AddressList)
             {
+                //Console.WriteLine("host" + IPGlobalProperties.GetIPGlobalProperties().DomainName);
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
                     return ip.ToString();
+                }
+
+            }*/
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                {
+                    IPInterfaceProperties properties = ni.GetIPProperties();
+                    Console.WriteLine(properties.DnsSuffix);
+                    //Console.WriteLine(ni.Name);
+                    foreach (UnicastIPAddressInformation ip in ni.GetIPProperties().UnicastAddresses)
+                    {
+                        if (ip.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            Console.WriteLine(ip.Address.ToString());
+                            if(properties.DnsSuffix == "lan")
+                            {
+                                return ip.Address.ToString();
+                            }
+                        }
+                    }
                 }
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
