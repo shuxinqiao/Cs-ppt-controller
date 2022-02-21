@@ -4,6 +4,78 @@
 	<link rel="icon" href="/sq-green.png" type="image/png">
 	<link rel="shortcut icon" href="/sq-green.png" type="image/png">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	
+	<style>
+	.main-content {
+		height: auto;
+		font-family:Georgia, serif;
+		padding: 10px 15px;
+		position: relative;
+		width: 60%;
+		color:#006d95;
+	}
+	
+	body {
+		margin:auto;
+		width:1024px;
+		padding:10px;
+		background-color:#ebebeb;
+		font-size:14px;
+		font-family:Verdana;
+	}
+
+
+	.button-24 {
+	  background: #FF4742;
+	  border: 1px solid #FF4742;
+	  border-radius: 6px;
+	  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+	  box-sizing: border-box;
+	  color: #FFFFFF;
+	  cursor: pointer;
+	  display: inline-block;
+	  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+	  font-size: 16px;
+	  font-weight: 800;
+	  line-height: 16px;
+	  width: 250px;
+	  height: 100px;
+	  min-height: 40px;
+	  outline: 0;
+	  padding: 12px 14px;
+	  text-align: center;
+	  text-rendering: geometricprecision;
+	  text-transform: none;
+	  user-select: none;
+	  -webkit-user-select: none;
+	  touch-action: manipulation;
+	  vertical-align: middle;
+	}
+
+	.button-24:hover,
+	.button-24:active {
+	  background-color: initial;
+	  background-position: 0 0;
+	  color: #FF4742;
+	}
+
+	.button-24:active {
+	  opacity: .5;
+	}
+	
+	.vertical-center {
+	  margin: 0;
+	  position: absolute;
+	  left: 50%;
+	  -ms-transform: translateX(-50%);
+	  transform: translateX(-50%);
+	}
+
+	
+	.p    {height:50px}
+	.input {margin: 0px 15px}
+	
+	</style>
 </head>
 
 <html>
@@ -12,24 +84,32 @@
 		<!--<script src="/vue.global.js"></script>!-->
 	</head>
 	<body>
+	<h1 class="main-content">PPT Controller</h1>
 
 	<div>
 		<form id="Form">
-			<input type="input" id="SendInfo" value=""/>
+			<input type="input" id="SendInfo" value="" class="input"/>
 			<button type="submit">Submit</button>
 		</form>
 	</div>
-
+	
 	<div>
-		<button onclick="PreviousPage()">Previous Page</button>
-		<button onclick="NextPage()">Next Page</button>
-		<p id="page_num" />
-		<p id="page_note" />
+		<p id="show" class="input"></p>
+		<p class="p"></p>
 	</div>
 
 	<div>
-		<p id="show"></p>
+		<div class="vertical-center">
+			<button onclick="PreviousPage()" class="button-24">Previous Page</button>
+			<p class="p"><p/>
+			<button onclick="NextPage()" class="button-24">Next Page</button>
+		</div>
+		<p id="page_num" class="input"/>
+		<p id="page_note" class="input"/>
+		
 	</div>
+
+
 
 
 	<script type="text/javascript">
