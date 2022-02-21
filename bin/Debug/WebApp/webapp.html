@@ -35,11 +35,11 @@
 	  cursor: pointer;
 	  display: inline-block;
 	  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
-	  font-size: 16px;
+	  font-size: 24px;
 	  font-weight: 800;
 	  line-height: 16px;
-	  width: 250px;
-	  height: 100px;
+	  width: 400px;
+	  height: 150px;
 	  min-height: 40px;
 	  outline: 0;
 	  padding: 12px 14px;
@@ -72,8 +72,11 @@
 	}
 
 	
-	.p    {height:50px}
-	.input {margin: 0px 15px}
+	.p    {
+		margin: 10px;
+		font-weight:700;
+	}
+	.input {margin: 0px 10px}
 	
 	</style>
 </head>
@@ -94,18 +97,20 @@
 	</div>
 	
 	<div>
-		<p id="show" class="input"></p>
+		<p id="show" class="p"></p>
 		<p class="p"></p>
 	</div>
-
+	<div>
+		<p id="page_num" class="input"/>	
+		<p id="page_note" class="input"/>
+	</div>
 	<div>
 		<div class="vertical-center">
 			<button onclick="PreviousPage()" class="button-24">Previous Page</button>
 			<p class="p"><p/>
 			<button onclick="NextPage()" class="button-24">Next Page</button>
 		</div>
-		<p id="page_num" class="input"/>
-		<p id="page_note" class="input"/>
+		
 		
 	</div>
 
