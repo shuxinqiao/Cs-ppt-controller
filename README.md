@@ -4,7 +4,7 @@
 A PowerPoint Controller with Window Desktop WPF application, Single HTML remote control page.
 ## Requirement
 - .Net FrameWork 4.7.2
-- .Net SDK (?)
+- .Net SDK
 
 ## Usage
 
