@@ -2,6 +2,11 @@
 # C# PowerPoint Controller
 
 A PowerPoint Controller with Window Desktop WPF application, Single HTML remote control page.
+
+## APP Screenshot
+![Screenshot](/ScreenShots/Main.PNG)
+
+
 ## Requirement
 - .Net FrameWork 4.7.2
 - .Net SDK
